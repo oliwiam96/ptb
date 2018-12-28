@@ -71,13 +71,13 @@ logging = tf.logging
 flags.DEFINE_string(
     "model", "small",
     "A type of model. Possible options are: small, medium, large.")
-flags.DEFINE_string("data_path", '.\simple-examples\data',
+flags.DEFINE_string("data_path", './simple-examples/data2', # zmienic jesli uruchamiamy na linuksie
                     "Where the training/test data is stored.")
 flags.DEFINE_string("save_path", '.\output',
                     "Model output directory.")
 flags.DEFINE_bool("use_fp16", False,
                   "Train using 16-bit floats instead of 32bit floats")
-flags.DEFINE_integer("num_gpus", 0,
+flags.DEFINE_integer("num_gpus", 1,
                      "If larger than 1, Grappler AutoParallel optimizer "
                      "will create multiple training replicas with each GPU "
                      "running one replica.")
@@ -130,7 +130,7 @@ class PTBModel(object):
 
         output, state = self._build_rnn_graph(inputs, config, is_training)
 
-        # warstrwa liniowa na wyjściu
+        # warstrwa liniowa na wyjsciu
         softmax_w = tf.get_variable(
             "softmax_w", [size, vocab_size], dtype=data_type())
         softmax_b = tf.get_variable("softmax_b", [vocab_size], dtype=data_type())
@@ -324,13 +324,13 @@ class SmallConfig(object):
     max_grad_norm = 5
     num_layers = 2
     num_steps = 20 # T?
-    hidden_size = 128 # H oni mają 128
+    hidden_size = 128 # H oni maja 128
     max_epoch = 4
     max_max_epoch = 13
     keep_prob = 1.0 # dropout
     lr_decay = 0.5
     batch_size = 20 # N
-    vocab_size = 64 # 10000 # D oni mają 64
+    vocab_size = 104 # 10000 # D oni maja 64, tyle jest unikalnych znaków w ksiazce
     rnn_mode = BLOCK
 # local V, D, H = self.vocab_size, self.wordvec_dim, self.rnn_size https://github.com/jcjohnson/torch-rnn/blob/master/LanguageModel.lua, 29. linijka
 # local N, T = opt.batch_size, opt.seq_lengt https://github.com/jcjohnson/torch-rnn/blob/master/train.lua 102. linijka
@@ -340,7 +340,7 @@ class SmallConfig(object):
 # -batch_size: Number of sequences to use in a minibatch; default is 50.
 # -seq_length: Number of timesteps for which the recurrent network is unrolled for backpropagation through time.
 
-# u nich vocab_size to liczba unikalnych znaków w tekście, potrzebne chyba, żeby ostatecznie na wyjściu znów mieć literki?
+# u nich vocab_size to liczba unikalnych znakow w tekscie, potrzebne chyba, zeby ostatecznie na wyjsciu znow miec literki?
 class MediumConfig(object):
     """Medium config."""
     init_scale = 0.05
