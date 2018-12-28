@@ -73,7 +73,7 @@ flags.DEFINE_string(
     "A type of model. Possible options are: small, medium, large.")
 flags.DEFINE_string("data_path", './simple-examples/data2', # zmienic jesli uruchamiamy na linuksie
                     "Where the training/test data is stored.")
-flags.DEFINE_string("save_path", '.\output',
+flags.DEFINE_string("save_path", './output',
                     "Model output directory.")
 flags.DEFINE_bool("use_fp16", False,
                   "Train using 16-bit floats instead of 32bit floats")
@@ -325,12 +325,12 @@ class SmallConfig(object):
     num_layers = 2
     num_steps = 20 # T?
     hidden_size = 128 # H oni maja 128
-    max_epoch = 4
-    max_max_epoch = 13
+    max_epoch = 120
+    max_max_epoch = 200
     keep_prob = 1.0 # dropout
     lr_decay = 0.5
     batch_size = 20 # N
-    vocab_size = 104 # 10000 # D oni maja 64, tyle jest unikalnych znaków w ksiazce
+    vocab_size = 104 # 10000 # D oni maja 64, tyle jest unikalnych znakow w ksiazce
     rnn_mode = BLOCK
 # local V, D, H = self.vocab_size, self.wordvec_dim, self.rnn_size https://github.com/jcjohnson/torch-rnn/blob/master/LanguageModel.lua, 29. linijka
 # local N, T = opt.batch_size, opt.seq_lengt https://github.com/jcjohnson/torch-rnn/blob/master/train.lua 102. linijka
@@ -388,7 +388,7 @@ class TestConfig(object):
     keep_prob = 1.0
     lr_decay = 0.5
     batch_size = 20
-    vocab_size = 50 # 10000
+    vocab_size = 104 # 10000
     rnn_mode = BLOCK
 
 
@@ -509,7 +509,7 @@ def main(_):
         tf.train.import_meta_graph(metagraph)
         for model in models.values():
             model.import_ops()
-        sv = tf.train.Supervisor(logdir=FLAGS.save_path)
+        sv = tf.train.Supervisor(logdir=FLAGS.save_path, save_model_secs = 0)
         config_proto = tf.ConfigProto(allow_soft_placement=soft_placement)
         with sv.managed_session(config=config_proto) as session:
             for i in range(config.max_max_epoch):
@@ -528,7 +528,7 @@ def main(_):
 
             if FLAGS.save_path:
                 print("Saving model to %s." % FLAGS.save_path)
-                sv.saver.save(session, FLAGS.save_path, global_step=sv.global_step)
+                #sv.saver.save(session, FLAGS.save_path, global_step=sv.global_step)
 
 
 if __name__ == "__main__":
