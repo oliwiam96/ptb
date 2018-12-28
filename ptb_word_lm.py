@@ -323,13 +323,13 @@ class SmallConfig(object):
     learning_rate = 1.0
     max_grad_norm = 5
     num_layers = 2
-    num_steps = 20 # T?
+    num_steps = 50 # T?
     hidden_size = 128 # H oni maja 128
     max_epoch = 120
     max_max_epoch = 200
     keep_prob = 1.0 # dropout
     lr_decay = 0.5
-    batch_size = 50 # N
+    batch_size = 100 # N
     vocab_size = 104 # 10000 # D oni maja 64, tyle jest unikalnych znakow w ksiazce
     rnn_mode = BLOCK
 # local V, D, H = self.vocab_size, self.wordvec_dim, self.rnn_size https://github.com/jcjohnson/torch-rnn/blob/master/LanguageModel.lua, 29. linijka
