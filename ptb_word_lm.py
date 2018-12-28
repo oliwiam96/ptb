@@ -329,7 +329,7 @@ class SmallConfig(object):
     max_max_epoch = 200
     keep_prob = 1.0 # dropout
     lr_decay = 0.5
-    batch_size = 20 # N
+    batch_size = 50 # N
     vocab_size = 104 # 10000 # D oni maja 64, tyle jest unikalnych znakow w ksiazce
     rnn_mode = BLOCK
 # local V, D, H = self.vocab_size, self.wordvec_dim, self.rnn_size https://github.com/jcjohnson/torch-rnn/blob/master/LanguageModel.lua, 29. linijka
