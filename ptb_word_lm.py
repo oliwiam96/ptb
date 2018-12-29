@@ -449,7 +449,6 @@ def get_config():
 
 
 def main(_):
-    print("siemka")
     if not FLAGS.data_path:
         raise ValueError("Must set --data_path to PTB data directory")
     gpus = [
@@ -523,12 +522,12 @@ def main(_):
                 valid_perplexity = run_epoch(session, mvalid)
                 print("Epoch: %d Valid Perplexity: %.3f" % (i + 1, valid_perplexity))
 
-            test_perplexity = run_epoch(session, mtest)
-            print("Test Perplexity: %.3f" % test_perplexity)
-
-            if FLAGS.save_path:
-                print("Saving model to %s." % FLAGS.save_path)
-                #sv.saver.save(session, FLAGS.save_path, global_step=sv.global_step)
+            # test_perplexity = run_epoch(session, mtest)
+            # print("Test Perplexity: %.3f" % test_perplexity)
+            #
+            # if FLAGS.save_path:
+            #     print("Saving model to %s." % FLAGS.save_path)
+            #     #sv.saver.save(session, FLAGS.save_path, global_step=sv.global_step)
 
 
 if __name__ == "__main__":
