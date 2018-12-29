@@ -325,10 +325,10 @@ class SmallConfig(object):
     num_layers = 2
     num_steps = 50 # T?
     hidden_size = 128 # H oni maja 128
-    max_epoch = 120
+    max_epoch = 160
     max_max_epoch = 200
     keep_prob = 1.0 # dropout
-    lr_decay = 0.5
+    lr_decay = 0.8
     batch_size = 100 # N
     vocab_size = 104 # 10000 # D oni maja 64, tyle jest unikalnych znakow w ksiazce
     rnn_mode = BLOCK
