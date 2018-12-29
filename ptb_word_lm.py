@@ -122,7 +122,7 @@ class PTBModel(object):
 
         with tf.device("/cpu:0"):
             embedding = tf.get_variable(
-                "embedding", [vocab_size, size], dtype=data_type())
+                "embedding", [vocab_size, 64], dtype=data_type())
             inputs = tf.nn.embedding_lookup(embedding, input_.input_data)
 
         if is_training and config.keep_prob < 1:
@@ -230,16 +230,16 @@ class PTBModel(object):
         # In general, use tf.nn.static_rnn() or tf.nn.static_state_saving_rnn().
         #
         # The alternative version of the code below is:
-        #
-        # inputs = tf.unstack(inputs, num=self.num_steps, axis=1)
-        # outputs, state = tf.nn.static_rnn(cell, inputs,
-        #                                   initial_state=self._initial_state)
-        outputs = []
-        with tf.variable_scope("RNN"):
-            for time_step in range(self.num_steps):
-                if time_step > 0: tf.get_variable_scope().reuse_variables()
-                (cell_output, state) = cell(inputs[:, time_step, :], state)
-                outputs.append(cell_output)
+
+        inputs = tf.unstack(inputs, num=self.num_steps, axis=1)
+        outputs, state = tf.nn.static_rnn(cell, inputs,
+                                          initial_state=self._initial_state)
+        # outputs = []
+        # with tf.variable_scope("RNN"):
+        #     for time_step in range(self.num_steps):
+        #         if time_step > 0: tf.get_variable_scope().reuse_variables()
+        #         (cell_output, state) = cell(inputs[:, time_step, :], state)
+        #         outputs.append(cell_output)
         output = tf.reshape(tf.concat(outputs, 1), [-1, config.hidden_size])
         return output, state
 
@@ -325,10 +325,10 @@ class SmallConfig(object):
     num_layers = 2
     num_steps = 50 # T?
     hidden_size = 128 # H oni maja 128
-    max_epoch = 160
+    max_epoch = 120
     max_max_epoch = 200
     keep_prob = 1.0 # dropout
-    lr_decay = 0.8
+    lr_decay = 0.85
     batch_size = 100 # N
     vocab_size = 104 # 10000 # D oni maja 64, tyle jest unikalnych znakow w ksiazce
     rnn_mode = BLOCK
