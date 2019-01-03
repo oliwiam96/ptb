@@ -64,6 +64,7 @@ import tensorflow as tf
 import reader
 import util
 from tensorflow.python.client import device_lib
+import cocob_optimizer
 
 flags = tf.flags
 logging = tf.logging
@@ -157,7 +158,8 @@ class PTBModel(object):
         tvars = tf.trainable_variables()
         grads, _ = tf.clip_by_global_norm(tf.gradients(self._cost, tvars),
                                           config.max_grad_norm)
-        optimizer = tf.train.GradientDescentOptimizer(self._lr)
+        optimizer = cocob_optimizer.COCOB() #tf.train.AdagradOptimizer(learning_rate= self._lr)
+
         self._train_op = optimizer.apply_gradients(
             zip(grads, tvars),
             global_step=tf.train.get_or_create_global_step())
