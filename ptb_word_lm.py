@@ -158,7 +158,8 @@ class PTBModel(object):
         tvars = tf.trainable_variables()
         grads, _ = tf.clip_by_global_norm(tf.gradients(self._cost, tvars),
                                           config.max_grad_norm)
-        optimizer = cocob_optimizer.COCOB() #tf.train.AdagradOptimizer(learning_rate= self._lr)
+        #optimizer = cocob_optimizer.COCOB()
+        optimizer = tf.train.MomentumOptimizer(learning_rate= self._lr, momentum = 0.9, use_nesterov=False)
 
         self._train_op = optimizer.apply_gradients(
             zip(grads, tvars),
@@ -322,7 +323,7 @@ class PTBModel(object):
 class SmallConfig(object):
     """Small config."""
     init_scale = 0.1
-    learning_rate = 1.0
+    learning_rate = 0.0625
     max_grad_norm = 5
     num_layers = 2
     num_steps = 50 # T?
